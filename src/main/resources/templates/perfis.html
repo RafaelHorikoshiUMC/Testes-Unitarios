@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Meu Perfil</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+  <style>
+    /* Centralização dos cards */
+    .row.g-3 {
+      justify-content: center;
+    }
+
+    /* Estilo do card */
+    .card {
+      min-height: 500px; /* Altura mínima ajustada */
+      max-width: 500px; /* Largura máxima bem menor */
+      width: 100%; /* Preenche o espaço disponível */
+      padding: 20px; /* Espaçamento interno */
+      margin: auto; /* Centralização automática */
+    }
+
+    /* Estilo para a imagem do avatar */
+    .card-img-top {
+      object-fit: cover; /* Mantém a proporção da imagem */
+      width: 100%; /* Preenche horizontalmente dentro do card */
+      height: auto; /* Ajuste automático de altura proporcional */
+      max-height: 300px; /* Limita altura máxima */
+      border-top-left-radius: 0.5rem;
+      border-top-right-radius: 0.5rem;
+    }
+
+    /* Estilo do conteúdo */
+    .card-body {
+      font-size: 1rem; /* Tamanho reduzido das fontes */
+      line-height: 1.5; /* Altura da linha ajustada para equilíbrio */
+    }
+
+    /* Botões */
+    .card-footer .btn {
+      font-size: 0.9rem; /* Botões com tamanho menor */
+      padding: 0.4rem 0.6rem;
+    }
+
+    /* Ajustes para tablets */
+    @media (max-width: 768px) {
+      .card {
+        min-height: 550px;
+        padding: 15px;
+      }
+
+      .card-img-top {
+        max-height: 250px; /* Reduz a altura máxima para tablets */
+      }
+
+      .card-body {
+        font-size: 0.9rem;
+      }
+
+      .btn {
+        font-size: 0.8rem;
+        padding: 0.4rem 0.5rem;
+      }
+    }
+
+    /* Ajustes para celulares */
+    @media (max-width: 576px) {
+      .card {
+        min-height: 450px; /* Altura menor ajustada ao celular */
+        padding: 10px;
+      }
+
+      .card-img-top {
+        max-height: 200px; /* Ajuste da imagem para celulares */
+      }
+
+      .card-body {
+        font-size: 0.85rem;
+      }
+
+      .card-footer .btn {
+        font-size: 0.8rem;
+        padding: 0.3rem 0.5rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- Sidebar -->
+<aside>
+  <div th:replace="~{fragments/sidebar :: sidebar}"></div>
+</aside>
+
+<!-- Botão para alternar a sidebar no mobile -->
+<div class="toggle-btn btn btn-dark d-md-none">
+  <span>&#9776;</span>
+</div>
+
+<!-- Conteúdo principal -->
+<div class="container min-vh-100 py-4">
+  <h1 class="mb-4 text-center">Meu Perfil</h1>
+
+  <div th:if="${msgSucesso}" class="alert alert-success alert-dismissible fade show" role="alert">
+    <span th:text="${msgSucesso}"></span>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
+  </div>
+
+  <div th:if="${msgErro}" class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
+    <span th:text="${msgErro}"></span>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
+  </div>
+
+
+  <!-- Botão para criar um novo perfil -->
+  <div class="text-center mb-4" th:if="${#lists.isEmpty(perfis)}">
+    <h1>Crie seu perfil para poder usar o site</h1>
+    <a href="/perfis/novo" class="btn btn-success btn-lg">
+      <i class="bi bi-plus-circle"></i> Criar Perfil
+    </a>
+  </div>
+
+  <!-- Exibição de perfis -->
+  <div class="row g-4 justify-content-center" th:each="perfil : ${perfis}">
+    <div class="col-12 col-md-10 col-lg-8 d-flex justify-content-center">
+      <div class="card shadow-sm rounded">
+        <!-- Imagem do avatar -->
+        <img th:src="${perfil.fotoUrl}" class="card-img-top" alt="Avatar">
+        <div class="card-body">
+          <p class="card-text"><strong>Apelido:</strong> <span th:text="${perfil.apelido}"></span></p>
+          <p><strong>Jogo Preferido:</strong>
+            <span th:if="${perfil.jogoPreferido != null}" th:text="${perfil.jogoPreferido.nome}"></span>
+            <span th:unless="${perfil.jogoPreferido != null}">Nenhum</span>
+          </p>
+          <p class="card-text"><strong>Nascimento:</strong> <span th:text="${perfil.nascimento}"></span></p>
+          <p class="card-text"><strong>Gênero Principal:</strong> <span th:text="${perfil.generoPreferidoPrincipal}"></span></p>
+          <p class="card-text"><strong>Gênero Secundário:</strong> <span th:text="${perfil.generoPreferidoSecundario}"></span></p>
+          <p class="card-text"><strong>Comunicação:</strong> <span th:text="${perfil.comunicacao}"></span></p>
+          <p class="card-text"><strong>Plataforma:</strong> <span th:text="${perfil.plataforma}"></span></p>
+          <p class="card-text"><strong>Período Online:</strong> <span th:text="${perfil.periodoOnline}"></span></p>
+          <p class="card-text"><strong>Estilo de Jogo:</strong> <span th:text="${perfil.estiloDeJogo}"></span></p>
+          <p class="card-text"><strong>Descrição:</strong> <span th:text="${perfil.descricao}"></span></p>
+          <p class="card-text"><strong>Estado Civil:</strong> <span th:text="${perfil.estadoCivil}"></span></p>
+        </div>
+        <div class="card-footer d-flex justify-content-between">
+          <a th:href="@{'/perfis/editar/' + ${perfil.id}}" class="btn btn-primary">
+            <i class="bi bi-pencil-square"></i> Editar
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script th:src="@{/js/script.js}"></script>
+</body>
+</html>

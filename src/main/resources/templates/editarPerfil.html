@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Perfil</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/style.css}"> <style>
+    /* Estilos para seleção de avatar (6 por linha) */
+    .avatar-option {
+        cursor: pointer;
+        border: 3px solid transparent;
+        transition: border-color 0.3s ease;
+        width: 120px; /* Tamanho padrão para desktop */
+        height: 120px;
+        object-fit: cover;
+        border-radius: 50%;
+    }
+
+    .avatar-option.selected {
+        border-color: #0d6efd; /* Azul primário do Bootstrap */
+    }
+
+    .avatar-item-wrapper {
+        /* text-align: center; é herdado da classe 'text-center' no HTML */
+    }
+
+    .avatar-container {
+        display: flex;
+        gap: 15px;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    @media (min-width: 992px) {
+        .avatar-container {
+            max-width: 795px; /* (6 * 120px) + (5 * 15px) = 795px */
+            margin-left: auto;
+            margin-right: auto;
+            overflow-x: hidden;
+        }
+    }
+
+    /* Outros estilos responsivos para avatares */
+    @media (max-width: 768px) {
+        .avatar-option {
+            width: 110px;
+            height: 110px;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .avatar-option {
+            width: 100px;
+            height: 100px;
+        }
+    }
+
+    /* Estilos de formulário (se necessário, ajuste conforme seu style.css) */
+    .form-label {
+        font-size: 0.9rem;
+    }
+
+    .form-control, .form-select {
+        font-size: 0.9rem;
+    }
+
+    /* Certifique-se que seu style.css lida com o layout da sidebar e do conteúdo principal.
+       Por exemplo, o conteúdo principal pode precisar de um margin-left em telas grandes
+       para não ficar atrás da sidebar. O script.js deve cuidar do toggle. */
+</style>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
+</head>
+<body>
+
+<aside>
+    <div th:replace="~{fragments/sidebar :: sidebar}"></div>
+</aside>
+
+<div class="toggle-btn btn btn-dark d-md-none">
+    <span>&#9776;</span> </div>
+
+<div class="container mt-4">
+    <h1 class="text-center mb-4">Editar Perfil</h1>
+
+    <h2 class="mb-3 text-center">Escolha um Avatar</h2>
+
+    <form th:action="@{'/perfis/atualizar/' + ${perfil.id}}" th:object="${perfil}" method="post" onsubmit="ensureAvatarSelected()">
+        <input type="hidden" th:value="${perfil.fotoUrl}" name="fotoUrl" id="fotoUrl" required>
+
+        <div class="avatar-container mb-4">
+            <div class="avatar-item-wrapper text-center" th:each="seed : ${seeds}">
+                <img th:src="'https://api.dicebear.com/9.x/bottts-neutral/svg?seed=' + ${seed}"
+                     th:attr="data-url='https://api.dicebear.com/9.x/bottts-neutral/svg?seed=' + ${seed}"
+                     class="avatar-option"
+                     onclick="selectAvatar(this)">
+            </div>
+        </div>
+
+        <div class="row g-3">
+            <div class="col-md-6">
+                <label for="apelido" class="form-label">Apelido</label>
+                <input type="text" th:field="*{apelido}" class="form-control" id="apelido" required>
+            </div>
+
+            <div class="col-12 col-md-6">
+                <label for="jogoFavorito" class="form-label">Jogo Favorito</label>
+                <select th:field="*{jogoPreferido}" class="form-select js-select2" id="jogoFavorito" required>
+                    <option value="" disabled selected hidden>Selecione o Jogo Favorito</option>
+                    <option th:each="jogo : ${jogos}" th:value="${jogo.id}" th:text="${jogo.nome}"></option>
+                </select>
+            </div>
+
+            <div class="col-md-6">
+                <label for="nascimento" class="form-label">Ano de Nascimento</label>
+                <input type="date" th:field="*{nascimento}" class="form-control" id="nascimento" required>
+            </div>
+
+            <div class="col-md-6">
+                <label for="generoPreferidoPrincipal" class="form-label">Gênero Preferido Principal</label>
+                <select th:field="*{generoPreferidoPrincipal}" class="form-select" id="generoPreferidoPrincipal" required>
+                    <option value="" disabled selected>Selecione o Gênero Preferido Principal</option>
+                    <option value="Ação">Ação</option>
+                    <option value="Aventura">Aventura</option>
+                    <option value="RPG">RPG (Role-Playing Game)</option>
+                    <option value="Estratégia">Estratégia</option>
+                    <option value="Simulação">Simulação</option>
+                    <option value="Puzzle">Puzzle</option>
+                    <option value="FPS">FPS (First-Person Shooter)</option>
+                    <option value="MOBA">MOBA</option>
+                    <option value="MMORPG">MMORPG</option>
+                    <option value="BattleRoyale">Battle Royale</option>
+                </select>
+            </div>
+
+            <div class="col-md-6">
+                <label for="generoPreferidoSecundario" class="form-label">Gênero Preferido Secundário</label>
+                <select th:field="*{generoPreferidoSecundario}" class="form-select" id="generoPreferidoSecundario" required>
+                    <option value="" disabled selected>Selecione o Gênero Preferido Secundário</option>
+                    <option value="Ação">Ação</option>
+                    <option value="Aventura">Aventura</option>
+                    <option value="RPG">RPG (Role-Playing Game)</option>
+                    <option value="Estratégia">Estratégia</option>
+                    <option value="Simulação">Simulação</option>
+                    <option value="Puzzle">Puzzle</option>
+                    <option value="FPS">FPS (First-Person Shooter)</option>
+                    <option value="MOBA">MOBA</option>
+                    <option value="MMORPG">MMORPG</option>
+                    <option value="BattleRoyale">Battle Royale</option>
+                </select>
+            </div>
+
+            <div class="col-md-6">
+                <label for="comunicacao" class="form-label">Plataforma de Comunicação</label>
+                <select th:field="*{comunicacao}" class="form-select" id="comunicacao" required>
+                    <option value="" disabled selected>Selecione a Plataforma de Comunicação</option>
+                    <option value="Discord">Discord</option>
+                    <option value="TeamSpeak">TeamSpeak</option>
+                </select>
+            </div>
+
+            <div class="col-md-6">
+                <label for="plataforma" class="form-label">Plataforma</label>
+                <select th:field="*{plataforma}" class="form-select" id="plataforma" required>
+                    <option value="" disabled selected>Selecione a Plataforma</option>
+                    <option value="PC">PC</option>
+                    <option value="Playstation">Playstation</option>
+                    <option value="Xbox">Xbox</option>
+                    <option value="Switch">Switch</option>
+                </select>
+            </div>
+
+            <div class="col-md-6">
+                <label for="periodoOnline" class="form-label">Período Online</label>
+                <select th:field="*{periodoOnline}" class="form-select" id="periodoOnline" required>
+                    <option value="" disabled selected>Selecione o Período Online</option>
+                    <option value="Matutino">Matutino</option>
+                    <option value="Vespertino">Vespertino</option>
+                    <option value="Noturno">Noturno</option>
+                    <option value="Madrugada">Madrugada</option>
+                </select>
+            </div>
+
+            <div class="col-md-6">
+                <label for="estiloDeJogo" class="form-label">Estilo De Jogo</label>
+                <select th:field="*{estiloDeJogo}" class="form-select" id="estiloDeJogo" required>
+                    <option value="" disabled selected>Selecione o Estilo de Jogo</option>
+                    <option value="Competitivo">Competitivo</option>
+                    <option value="Casual">Casual</option>
+                </select>
+            </div>
+
+            <div class="col-md-6">
+                <label for="descricao" class="form-label">Descrição</label>
+                <input type="text" th:field="*{descricao}" class="form-control" id="descricao" required>
+            </div>
+
+            <div class="col-md-6">
+                <label for="estadoCivil" class="form-label">Estado Civil</label>
+                <select th:field="*{estadoCivil}" class="form-select" id="estadoCivil" required>
+                    <option value="" disabled selected>Selecione o Estado Civil</option>
+                    <option value="Solteiro">Solteiro</option>
+                    <option value="Casado">Casado</option>
+                    <option value="Viúvo">Viúvo</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="mt-4">
+            <button type="submit" class="btn btn-success">Salvar Alterações</button>
+            <a th:href="@{/perfis}" class="btn btn-secondary">Cancelar</a>
+        </div>
+    </form>
+</div>
+
+<script th:src="@{/js/script.js}"></script>
+<script>
+    function selectAvatar(imgEl) {
+        document.querySelectorAll('.avatar-option').forEach(el => el.classList.remove('selected'));
+        imgEl.classList.add('selected');
+        document.getElementById('fotoUrl').value = imgEl.getAttribute('data-url');
+    }
+
+    function ensureAvatarSelected() {
+        const avatarField = document.getElementById('fotoUrl');
+        if (!avatarField.value) {
+            avatarField.value = /*[[${perfil.fotoUrl}]]*/ '';
+        }
+    }
+
+</script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#jogoFavorito').select2({
+            placeholder: "Selecione o Jogo Favorito",
+            allowClear: true
+        });
+    });
+</script>
+
+</body>
+</html>

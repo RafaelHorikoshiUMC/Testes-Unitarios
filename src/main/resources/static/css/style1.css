@@ -1,0 +1,346 @@
+W* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #121212;
+    color: #ffffff;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+
+.cabecalho {
+    background-color: #ffffff;
+    padding: 10px 0;
+    border-bottom: 1px solid #dddddd;
+    position: relative; /* Mantém relative para os filhos */
+}
+
+.cabecalho .container {
+    display: flex;
+    justify-content: space-between; /* Ajustado para espaçar logo e navegação */
+    align-items: center;
+    position: relative;
+    min-height: 50px;
+}
+
+.logo {
+    /* Removido position: absolute, left, top e transform para desktop */
+    /* Em desktop, a logo agora flutua à esquerda ou se ajusta pelo justify-content */
+    display: flex; /* Para centralizar a imagem dentro do seu container */
+    align-items: center;
+    justify-content: flex-start; /* Alinha a logo à esquerda por padrão */
+    z-index: 2; /* Garante que a logo fique acima, se houver sobreposição */
+}
+
+.logo img {
+    height: 50px;
+    width: auto;
+    /* margin-right: 0; - pode remover, não é mais tão relevante com flexbox */
+    display: block;
+}
+
+.navegacao {
+    position: relative;
+    z-index: 2;
+    /* Em desktop, já está justificado à direita pelo justify-content: space-between do container */
+}
+
+.navegacao .btn {
+    text-decoration: none;
+    color: #333333;
+    padding: 8px 18px;
+    border-radius: 20px;
+    margin-left: 10px;
+    font-weight: bold;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.btn-login {
+    background-color: #8a2be2;
+    color: #333333; /* Cor original */
+    border: 1px solid #8a2be2;
+}
+.btn-login:hover {
+    background-color: #7a1fd1;
+    color: #ffffff;
+}
+
+.btn-cadastro {
+    background-color: #e0e0e0;
+    color: #333333;
+    border: 1px solid #cccccc;
+}
+.btn-cadastro:hover {
+    background-color: #cccccc;
+    color: #000000;
+}
+
+/* Hero Section e Vantagens (mantidos como estão) */
+.hero {
+    background: url('../images/carajogando.png') no-repeat center center/cover;
+    height: 80vh;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    position: relative;
+    text-align: left;
+    padding: 20px;
+}
+
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 400px;
+    margin: 0;
+    padding: 0;
+    text-align: left;
+    align-self: flex-start;
+    padding-top: 40px;
+}
+
+.hero h1 {
+    font-size: 2.8em;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+    margin: 0;
+}
+
+.vantagens {
+    padding: 60px 0;
+    text-align: center;
+}
+
+.vantagens h2 {
+    display: inline-block;
+    background-image: linear-gradient(to right, #8a2be2, #a046f0);
+    color: #ffffff;
+    padding: 10px 30px;
+    border-radius: 30px;
+    margin-bottom: 50px;
+    font-size: 1.5em;
+}
+
+.lista-vantagens {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px 100px;
+    justify-content: center;
+    align-items: center;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.lista-vantagens li {
+    background-image: linear-gradient(to right, #8a2be2, #a046f0);
+    padding: 15px 25px;
+    border-radius: 30px;
+    text-align: left;
+    position: relative;
+    font-size: 0.95em;
+    min-height: 60px;
+    display: flex;
+    align-items: center;
+}
+
+.lista-vantagens .vantagem-central {
+    grid-column: 1 / -1;
+    justify-self: center;
+    max-width: 50%;
+    background-image: linear-gradient(to right, #8a2be2, #a046f0);
+    text-align: center;
+    padding: 20px 30px;
+    border-radius: 15px;
+}
+
+.vantagem-central i {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 1.5em;
+}
+
+.lista-vantagens li span {
+    display: flex;
+    align-items: center;
+}
+
+.lista-vantagens li i {
+    margin-right: 10px;
+    font-size: 1.1em;
+}
+
+.lista-vantagens li.centralizado {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+}
+
+.lista-vantagens li:nth-child(2) span,
+.lista-vantagens li:nth-child(5) span
+{
+    flex-direction: row;
+    text-align: center;
+    justify-content: center;
+    width: auto;
+}
+.lista-vantagens li:nth-child(2) i,
+.lista-vantagens li:nth-child(5) i {
+    margin-right: 0;
+    margin-left: 10px;
+}
+
+.rodape {
+    background-color: #1f1f1f;
+    padding: 40px 0;
+    border-top: 1px solid #333;
+    margin-top: 50px;
+}
+
+.rodape .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 30px;
+}
+
+.rodape-logo {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    flex-basis: 50%;
+}
+
+.rodape-logo img {
+    height: 50px;
+    margin-bottom: 8px;
+    filter: invert(1);
+}
+
+.rodape-logo span {
+    font-weight: bold;
+    font-size: 1.2em;
+    margin-bottom: 8px;
+}
+
+.rodape-logo p {
+    font-size: 0.9em;
+    color: #ccc;
+    max-width: 350px;
+    line-height: 1.5;
+    margin-top: 0;
+}
+
+.redes-sociais {
+    text-align: center;
+}
+
+.redes-sociais h3 {
+    margin-bottom: 15px;
+    font-size: 1.1em;
+}
+
+.redes-sociais a {
+    color: #ffffff;
+    font-size: 1.5em;
+    margin-right: 15px;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+.redes-sociais a:last-child {
+    margin-right: 0;
+}
+
+.redes-sociais a:hover {
+    color: #8a2be2;
+}
+
+/* Media Query para Mobile */
+@media (max-width: 768px) {
+    .cabecalho .container {
+        flex-direction: column; /* Empilha os itens verticalmente */
+        justify-content: center; /* Centraliza verticalmente */
+        align-items: center; /* Centraliza horizontalmente */
+        padding-bottom: 10px; /* Adiciona um pequeno padding inferior */
+    }
+
+    .logo {
+        position: static; /* Remove o posicionamento absoluto em mobile */
+        transform: none; /* Remove a transformação em mobile */
+        margin-bottom: 10px; /* Adiciona espaço abaixo da logo */
+        justify-content: center; /* Centraliza a logo */
+    }
+
+    .navegacao {
+        /* Remove o posicionamento relativo se não for necessário mais */
+        /* position: static; */
+        margin-top: 10px; /* Adiciona espaço acima da navegação */
+        display: flex; /* Para garantir que os botões fiquem lado a lado */
+        flex-wrap: wrap; /* Permite que os botões quebrem linha se necessário */
+        justify-content: center; /* Centraliza os botões */
+    }
+
+    .navegacao .btn {
+        margin: 5px; /* Ajusta a margem entre os botões */
+    }
+
+    .hero h1 {
+        font-size: 2em;
+        max-width: 100%;
+        text-align: center;
+    }
+    .hero {
+        height: 40vh;
+    }
+
+    .lista-vantagens {
+        grid-template-columns: 1fr;
+        gap: 15px;
+        max-width: 90%;
+    }
+    .lista-vantagens .vantagem-central {
+        max-width: 80%;
+    }
+
+    .rodape .container {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+    .navegacao {
+        margin-top: 15px;
+    }
+    .rodape-logo {
+        flex-basis: 100%;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+    .rodape-logo p {
+        text-align: center;
+    }
+    .redes-sociais {
+        text-align: center;
+        width: 100%;
+    }
+}

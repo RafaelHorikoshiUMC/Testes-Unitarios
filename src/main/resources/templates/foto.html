@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Novo Perfil</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    .avatar-option {
+      cursor: pointer;
+      border: 2px solid transparent;
+    }
+
+    .avatar-option.selected {
+      border-color: #0d6efd;
+    }
+  </style>
+</head>
+<body class="container mt-5">
+
+<h2>Escolha um Avatar</h2>
+
+<form th:action="@{/perfis/salvar}" method="post">
+  <input type="hidden" name="fotoUrl" id="fotoUrl" required>
+
+  <div class="row">
+    <div class="col-4 col-md-3 mb-3" th:each="seed : ${seeds}">
+      <img th:src="'https://api.dicebear.com/9.x/bottts-neutral/svg?seed=' + ${seed}"
+           th:attr="data-url='https://api.dicebear.com/9.x/bottts-neutral/svg?seed=' + ${seed}"
+           class="img-fluid rounded-circle avatar-option"
+           width="100" height="100"
+           onclick="selectAvatar(this)">
+    </div>
+  </div>
+
+  <button type="submit" class="btn btn-primary">Salvar Avatar</button>
+</form>
+
+<script>
+  function selectAvatar(imgEl) {
+    document.querySelectorAll('.avatar-option').forEach(el => el.classList.remove('selected'));
+    imgEl.classList.add('selected');
+    document.getElementById('fotoUrl').value = imgEl.getAttribute('data-url');
+  }
+</script>
+
+</body>
+</html>

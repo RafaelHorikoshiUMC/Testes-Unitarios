@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Curtidas Recebidas</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .match-container {
+            position: relative;
+            width: 100%;
+            max-width: 400px;
+            margin: 0 auto;
+            margin-top: 40px;
+            padding-left: 15px; /* Adicionado padding para telas pequenas */
+            padding-right: 15px; /* Adicionado padding para telas pequenas */
+        }
+
+        .match-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            padding: 30px;
+            width: 100%;
+            text-align: center;
+            margin: auto;
+            display: flex; /* Usar flexbox para posicionar elementos internos */
+            flex-direction: column; /* Empilhar elementos verticalmente */
+            align-items: center; /* Centralizar itens horizontalmente */
+            min-height: 400px; /* Altura mínima para o card */
+        }
+
+        .match-card p {
+            margin-bottom: 0.5rem; /* Espaçamento entre as informações do perfil */
+            font-size: 0.95rem; /* Ajustar tamanho da fonte */
+        }
+
+        .match-card strong {
+            display: block; /* Faz o label ficar acima do valor em mobile */
+            font-size: 0.85rem; /* Ajustar tamanho da fonte do label */
+            color: #6c757d; /* Cor mais suave para o label */
+        }
+
+        .match-card img {
+            max-width: 150px; /* Reduzir um pouco o tamanho da imagem para mobile */
+            max-height: 150px; /* Manter proporção */
+            border-radius: 12px;
+            margin-bottom: 20px;
+            object-fit: cover;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .no-likes {
+            text-align: center;
+            font-size: 1.2rem;
+            color: #777;
+            margin-top: 40px;
+        }
+
+        .action-buttons {
+            margin-top: auto;
+            display: flex;
+            justify-content: center;
+            gap: 20px; /* Espaço entre os botões */
+            width: 100%;
+            padding-top: 20px; /* Espaço acima dos botões */
+        }
+
+        .action-buttons form {
+            flex: none;
+        }
+
+        .btn-circle {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            font-size: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Sombra nos botões */
+        }
+
+        @media (max-width: 400px) {
+            .match-card img {
+                max-width: 120px;
+                max-height: 120px;
+            }
+            .btn-circle {
+                width: 50px;
+                height: 50px;
+                font-size: 20px;
+            }
+            .action-buttons {
+                gap: 15px;
+            }
+        }
+
+        .header-mobile-flex {
+            padding-left: 1rem; /* Adiciona um padding para o conteúdo não ficar colado na borda esquerda */
+            padding-right: 1rem; /* Adiciona um padding para o conteúdo não ficar colado na borda direita */
+        }
+        .header-title-mobile {
+            font-size: 1.5rem; /* Reduz o tamanho da fonte do título em mobile */
+            text-align: left; /* Garante alinhamento à esquerda */
+        }
+        .z-index-1000 {
+            z-index: 1000;
+        }
+
+    </style>
+</head>
+<body>
+
+    <aside>
+        <div th:replace="~{fragments/sidebar :: sidebar}"></div>
+    </aside>
+
+    <div class="container-fluid mt-4" th:fragment="content"> <div class="d-flex align-items-center mb-4 gap-3 header-mobile-flex"> <div class="toggle-btn btn btn-dark d-md-none me-3 z-index-1000"> <span>&#9776;</span>
+        </div>
+        <h2 class="container mt-4" th:fragment="content">Match de Perfis para <span th:text="${perfilAtual.apelido}"></span></h2> </div>
+
+        <div class="match-container">
+                <div class="match-card"
+                     th:each="perfil, iter : ${perfis}"
+                     th:classappend="${iter.index != 0} ? 'hidden' : ''"
+                     th:id="'card-' + ${iter.index}">
+                    <img th:if="${perfil.fotoUrl != null}" th:src="${perfil.fotoUrl}" alt="Foto do Perfil" />
+                    <p><strong>Apelido:</strong> <span th:text="${perfil.apelido}"></span></p>
+                    <p><strong>Jogo Preferido:</strong> <span th:text="${perfil.jogoPreferido.nome}"></span></p>
+                    <p><strong>Plataforma:</strong> <span th:text="${perfil.plataforma}"></span></p>
+                    <p><strong>Comunicação:</strong> <span th:text="${perfil.comunicacao}"></span></p>
+                    <p><strong>Periodo Online:</strong> <span th:text="${perfil.periodoOnline}"></span></p>
+                    <p><strong>Estilo de Jogo:</strong> <span th:text="${perfil.estiloDeJogo}"></span></p>
+                    <p><strong>Genero Preferido Principal:</strong> <span th:text="${perfil.generoPreferidoPrincipal}"></span></p>
+
+                    <div class="action-buttons">
+                        <button type="button"
+                                class="btn btn-danger btn-circle btn-dislike"
+                                th:data-origem="${perfilAtual.id}"
+                                th:data-alvo="${perfil.id}">
+                            <i class="bi bi-x-lg"></i>
+                        </button>
+                        <button type="button"
+                                class="btn btn-success btn-circle btn-like"
+                                th:data-origem="${perfilAtual.id}"
+                                th:data-alvo="${perfil.id}">
+                            <i class="bi bi-heart"></i>
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+            <div th:if="${perfis.isEmpty()}" class="no-likes">
+                <p>Nenhuma curtida recebida ainda 😢</p>
+            </div>
+        </div>
+
+
+    </div>
+
+    <script>
+        document.querySelectorAll('.btn-like, .btn-dislike').forEach(button => {
+            button.addEventListener('click', async function () {
+                const origemId = this.getAttribute('data-origem');
+                const alvoId = this.getAttribute('data-alvo');
+                const isLike = this.classList.contains('btn-like');
+                const url = `/perfis/${origemId}/match/${alvoId}/${isLike ? 'sim' : 'nao'}`;
+
+                const card = this.closest('.match-card');
+                card.style.opacity = '0';
+                card.style.transform = `translateX(${isLike ? '100%' : '-100%'})`;
+
+                try {
+                    const response = await fetch(url, { method: 'POST' });
+                    if (!response.ok) {
+                        console.error('Erro ao registrar decisão:', response.statusText);
+                    }
+                } catch (error) {
+                    console.error('Erro na requisição:', error);
+                }
+
+                setTimeout(() => {
+                    card.classList.add('hidden');
+                    const nextCard = card.nextElementSibling;
+                    if (nextCard) {
+                        nextCard.classList.remove('hidden');
+                    } else {
+                        const container = document.querySelector('.match-container');
+                        container.innerHTML = '<p class="no-likes">Você viu todos os perfis que curtiram você!</p>';
+                    }
+                }, 300);
+            });
+        });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script> <script th:src="@{/js/script.js}"></script>
+</body>
+</html>

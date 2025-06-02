@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Cadastrar Nova Sugestão De Jogo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<aside>
+  <div th:replace="~{fragments/sidebar :: sidebar}"></div>
+</aside>
+
+<div class="container-fluid mt-4" th:fragment="content"> <div class="d-flex align-items-center mb-4 gap-3 header-mobile-flex"> <div class="toggle-btn btn btn-dark d-md-none me-3"> <span>&#9776;</span>
+</div>
+  <h1 class="mt-4">Criar Nova Sugestão</h1></div>
+
+  <div th:if="${msgSucesso}" class="alert alert-success" th:text="${msgSucesso}"></div>
+  <div th:if="${msgErro}" class="alert alert-danger" th:text="${msgErro}"></div>
+
+  <form th:action="@{/sugestoesDeJogos/salvar}" th:object="${sugestaoDeJogo}" method="post" class="row g-3 px-3"> <div class="col-12 col-md-6"> <label for="nomeDoJogoSugerido" class="form-label">Nome Do Jogo Sugerido</label>
+    <input type="text" th:field="*{nomeDoJogoSugerido}" class="form-control" id="nomeDoJogoSugerido" required>
+  </div>
+
+    <div class="col-12 col-md-6"> <label for="descricaoOpcional" class="form-label">Descrição Opcional</label>
+      <input type="text" th:field="*{descricaoOpcional}" class="form-control" id="descricaoOpcional">
+    </div>
+
+    <div class="col-12">
+      <button type="submit" class="btn btn-success">Salvar</button>
+      <a th:href="@{/sugestoesDeJogos}" class="btn btn-secondary ms-2">Cancelar</a>
+    </div>
+  </form>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script> <script th:src="@{/js/script.js}"></script>
+
+</body>
+</html>

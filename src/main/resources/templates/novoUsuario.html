@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Login</title>
+    <!-- Link para o CSS do Bootstrap -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css">
+    <style>
+        /* Estilos adicionais para centralizar o card de login */
+        .login-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f8f9fa;
+        }
+        .login-card {
+            max-width: 400px;
+            width: 100%;
+            padding: 2rem;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            background-color: #ffffff;
+        }
+        .logo {
+            width: 100px;
+            height: auto;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+<div class="login-container">
+    <div class="login-card text-center" >
+
+        <img th:src="@{/images/logo.png}" alt="Logo" class="logo">
+        <h3 class="mb-4">Criar uma Conta</h3>
+        <h6 class="mb-4">Insira seu usuário, senha e e-mail para se cadastrar</h6>
+
+        <div th:if="${erro}" class="alert alert-danger" role="alert">
+            <p th:text="${erro}"></p>
+        </div>
+
+        <form th:action="@{/usuarios/salvar}" th:object="${usuario}" method="post" class="row g-3">
+            <div class="form-group mb-3">
+                <input type="text" class="form-control" th:field="*{nome}" placeholder="Digite seu usuário" id="nome" required>
+            </div>
+            <div class="form-group mb-3">
+                <input type="password" class="form-control" th:field="*{senha}" placeholder="Digite sua senha" id="senha" required>
+            </div>
+            <div class="form-group mb-3">
+                <input type="text" class="form-control" th:field="*{email}" placeholder="Digite seu e-mail" id="email" required>
+            </div>
+            <p class="text-center mt-3">
+                <a href="/politicasPrivacidade" class="text-muted text-decoration-none">
+                    Políticas de Privacidade
+                </a>
+            </p>
+            <a>
+                Ao clicar em inscreva-se você concorda com nossa políticas de privacidade
+            </a>
+            <button type="submit" class="btn btn-dark w-100">Inscreva-se</button>
+        </form>
+
+    </div>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+<div th:fragment="sidebar" class="sidebar-div">
+    <div id="sidebar">
+        <h4 class="text-center py-3">SquadFinder</h4>
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/perfis}">
+                    <i class="bi bi-person-circle"></i> <span>Perfil</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/perfis/compativeis}">
+                    <i class="bi bi-heart"></i> <span>Match</span> </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/perfis/curtidas-recebidas}">
+                    <i class="bi bi-heart"></i> <span>Curtidas Recebidas</span> </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/perfis/matches-reciprocos}">
+                    <i class="bi bi-heart"></i> <span>Meus Matches</span> </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/jogos}">
+                    <i class="bi bi-controller"></i> <span>Jogos</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/grupos}">
+                    <i class="bi bi-people"></i> <span>Grupos</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/sugestoesDeJogos}">
+                    <i class="bi bi-lightbulb"></i> <span>Sugestão De Jogo</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/depoimentos}">
+                    <i class="bi bi-chat-quote"></i> <span>Depoimentos</span>
+                </a>
+            </li>
+
+            <li class="nav-item" sec:authorize="hasRole('ADMIN')">
+                <a class="nav-link" th:href="@{/admin/usuarios}">
+                    <i class="bi bi-shield-lock"></i> <span>Admin</span> </a>
+            </li>
+
+            <li class="nav-item" sec:authorize="hasRole('ADMIN')">
+                <a class="nav-link" th:href="@{/dashboard}">
+                    <i class="bi bi-shield-lock"></i> <span>Dashboard</span> </a>
+            </li>
+
+            <li class="nav-item logout">
+                <a th:href="@{/logout}">
+                    <button type="submit" class="desconectar">Desconectar</button>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+</body>
+</html>

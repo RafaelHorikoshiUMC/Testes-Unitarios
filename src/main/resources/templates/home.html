@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>Início - SquadFinder</title>
+    <style>
+        .welcome-container {
+            min-height: calc(100vh - 100px);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+        }
+
+        .logo-container {
+            max-width: 100%;
+            text-align: center;
+        }
+
+        .logo-image {
+            max-width: 400px;
+            width: 100%;
+            height: auto;
+            object-fit: contain;
+        }
+
+        .welcome-title {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            color: #ffffff; /* Garante que o texto seja branco */
+            font-weight: bold; /* Deixa o texto em negrito */
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); /* Adiciona uma sombra suave */
+            display: block; /* Garante que o texto seja exibido */
+            visibility: visible; /* Garante que o texto esteja visível */
+        }
+
+        @media (max-width: 768px) {
+            .logo-image {
+                max-width: 300px;
+            }
+
+            .welcome-title {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .logo-image {
+                max-width: 250px;
+            }
+
+            .welcome-title {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="welcome-container">
+        <div class="logo-container">
+            <h1 class="welcome-title" style="color: #000000 !important;">Bem-vindo ao</h1>
+            <img th:src="@{/images/LogoBranco.png}" alt="Logo" class="logo-image">
+        </div>
+    </div>
+</div>
+</body>
+</html>
